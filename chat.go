@@ -8,9 +8,9 @@ import (
 )
 
 type GptChatRequest struct {
-	Model       string        `json:"model"`
+	Model       string        `json:"model" binding:"required"`
+	Messages    []*GptMessage `json:"messages" binding:"required,minLength=1"`
 	Temperature float64       `json:"temperature"`
-	Messages    []*GptMessage `json:"messages"`
 }
 
 type GptChatResponse struct {
