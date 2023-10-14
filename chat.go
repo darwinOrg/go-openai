@@ -9,7 +9,7 @@ const chatApiUrl = "https://api.openai.com/v1/chat/completions"
 type GptChatRequest struct {
 	Model       string        `json:"model" binding:"required"`
 	Messages    []*GptMessage `json:"messages" binding:"required,minLength=1"`
-	Temperature float64       `json:"temperature"`
+	Temperature float32       `json:"temperature"`
 }
 
 type GptChatResponse struct {

@@ -10,7 +10,7 @@ type GptCompletionRequest struct {
 	Model       string  `json:"model" binding:"required"`
 	Prompt      string  `json:"prompt" binding:"required"`
 	MaxTokens   int     `json:"max_tokens" binding:"required"`
-	Temperature float64 `json:"temperature"`
+	Temperature float32 `json:"temperature"`
 }
 
 type GptCompletionResponse struct {
