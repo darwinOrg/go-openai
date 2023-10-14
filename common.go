@@ -1,6 +1,9 @@
 package dgpt
 
 import (
+	dgctx "github.com/darwinOrg/go-common/context"
+	dghttp "github.com/darwinOrg/go-httpclient"
+	dglogger "github.com/darwinOrg/go-logger"
 	ve "github.com/darwinOrg/go-validator-ext"
 	"log"
 	"os"
@@ -31,4 +34,20 @@ func init() {
 	headers["Authorization"] = "Bearer " + apiKey
 
 	ve.NewCustomValidator()
+}
+
+func Execute[T any](ctx *dgctx.DgContext, apiUrl string, request any) (*T, error) {
+	dglogger.Infof(ctx, "call chatgpt api url[%s], request: %+v", apiUrl, request)
+	err := ve.ValidateDefault(request)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := dghttp.DoPostJsonToStruct[T](ctx, apiUrl, request, headers)
+	if err != nil {
+		dglogger.Errorf(ctx, "call chatgpt api url[%s] error: %v", apiUrl, err)
+		return nil, err
+	}
+
+	return response, nil
 }

@@ -2,9 +2,6 @@ package dgpt
 
 import (
 	dgctx "github.com/darwinOrg/go-common/context"
-	dghttp "github.com/darwinOrg/go-httpclient"
-	dglogger "github.com/darwinOrg/go-logger"
-	ve "github.com/darwinOrg/go-validator-ext"
 )
 
 const completionApiUrl = "https://api.openai.com/v1/completions"
@@ -33,17 +30,5 @@ type GptCompletionChoice struct {
 }
 
 func Completion(ctx *dgctx.DgContext, request *GptCompletionRequest) (*GptCompletionResponse, error) {
-	dglogger.Infof(ctx, "GptCompletionRequest: %+v", request)
-	err := ve.ValidateDefault(request)
-	if err != nil {
-		return nil, err
-	}
-
-	response, err := dghttp.DoPostJsonToStruct[GptCompletionResponse](ctx, completionApiUrl, request, headers)
-	if err != nil {
-		dglogger.Errorf(ctx, "gpt completion error: %v", err)
-		return nil, err
-	}
-
-	return response, nil
+	return Execute[GptCompletionResponse](ctx, completionApiUrl, request)
 }
