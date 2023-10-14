@@ -7,6 +7,8 @@ import (
 	ve "github.com/darwinOrg/go-validator-ext"
 )
 
+const completionApiUrl = "https://api.openai.com/v1/completions"
+
 type GptCompletionRequest struct {
 	Model       string  `json:"model" binding:"required"`
 	Prompt      string  `json:"prompt" binding:"required"`
@@ -15,15 +17,15 @@ type GptCompletionRequest struct {
 }
 
 type GptCompletionResponse struct {
-	Id      string                  `json:"id"`
-	Object  string                  `json:"object"`
-	Created int64                   `json:"created"`
-	Model   string                  `json:"model"`
-	Choices []*GptCompletionChoices `json:"choices"`
-	Usage   *GptUsage               `json:"usage"`
+	Id      string                 `json:"id"`
+	Object  string                 `json:"object"`
+	Created int64                  `json:"created"`
+	Model   string                 `json:"model"`
+	Choices []*GptCompletionChoice `json:"choices"`
+	Usage   *GptUsage              `json:"usage"`
 }
 
-type GptCompletionChoices struct {
+type GptCompletionChoice struct {
 	Text         string `json:"text"`
 	Index        int    `json:"index"`
 	Logprobs     string `json:"logprobs"`
@@ -37,7 +39,7 @@ func Completion(ctx *dgctx.DgContext, request *GptCompletionRequest) (*GptComple
 		return nil, err
 	}
 
-	response, err := dghttp.DoPostJsonToStruct[GptCompletionResponse](ctx, COMPLETION_API_URL, request, headers)
+	response, err := dghttp.DoPostJsonToStruct[GptCompletionResponse](ctx, completionApiUrl, request, headers)
 	if err != nil {
 		dglogger.Errorf(ctx, "gpt completion error: %v", err)
 		return nil, err

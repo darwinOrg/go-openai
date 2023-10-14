@@ -7,6 +7,8 @@ import (
 	ve "github.com/darwinOrg/go-validator-ext"
 )
 
+const chatApiUrl = "https://api.openai.com/v1/chat/completions"
+
 type GptChatRequest struct {
 	Model       string        `json:"model" binding:"required"`
 	Messages    []*GptMessage `json:"messages" binding:"required,minLength=1"`
@@ -14,15 +16,15 @@ type GptChatRequest struct {
 }
 
 type GptChatResponse struct {
-	Id      string            `json:"id"`
-	Object  string            `json:"object"`
-	Created int64             `json:"created"`
-	Model   string            `json:"model"`
-	Choices []*GptChatChoices `json:"choices"`
-	Usage   *GptUsage         `json:"usage"`
+	Id      string           `json:"id"`
+	Object  string           `json:"object"`
+	Created int64            `json:"created"`
+	Model   string           `json:"model"`
+	Choices []*GptChatChoice `json:"choices"`
+	Usage   *GptUsage        `json:"usage"`
 }
 
-type GptChatChoices struct {
+type GptChatChoice struct {
 	Index        int         `json:"index"`
 	Message      *GptMessage `json:"message"`
 	FinishReason string      `json:"finish_reason"`
@@ -35,7 +37,7 @@ func Chat(ctx *dgctx.DgContext, request *GptChatRequest) (*GptChatResponse, erro
 		return nil, err
 	}
 
-	response, err := dghttp.DoPostJsonToStruct[GptChatResponse](ctx, CHAT_API_URL, request, headers)
+	response, err := dghttp.DoPostJsonToStruct[GptChatResponse](ctx, chatApiUrl, request, headers)
 	if err != nil {
 		dglogger.Errorf(ctx, "gpt chat error: %v", err)
 		return nil, err

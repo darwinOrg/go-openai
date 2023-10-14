@@ -7,9 +7,7 @@ import (
 )
 
 var (
-	COMPLETION_API_URL = "https://api.openai.com/v1/completions"
-	CHAT_API_URL       = "https://api.openai.com/v1/chat/completions"
-	headers            map[string]string
+	headers map[string]string
 )
 
 type GptMessage struct {
