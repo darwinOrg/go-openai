@@ -3,13 +3,16 @@ module github.com/darwinOrg/go-chatgpt
 go 1.19
 
 require (
+	github.com/darwinOrg/go-common v0.0.4
+	github.com/darwinOrg/go-httpclient v0.0.11
+	github.com/darwinOrg/go-logger v0.0.1
+	github.com/darwinOrg/go-validator-ext v0.0.3
+)
+
+require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/darwinOrg/go-common v0.0.4 // indirect
-	github.com/darwinOrg/go-httpclient v0.0.11 // indirect
-	github.com/darwinOrg/go-logger v0.0.1 // indirect
 	github.com/darwinOrg/go-monitor v0.0.2 // indirect
-	github.com/darwinOrg/go-validator-ext v0.0.3 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
