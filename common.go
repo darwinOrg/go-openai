@@ -37,7 +37,6 @@ func init() {
 }
 
 func Execute[T any](ctx *dgctx.DgContext, apiUrl string, request any) (*T, error) {
-	dglogger.Infof(ctx, "call chatgpt api url[%s], request: %+v", apiUrl, request)
 	err := ve.ValidateDefault(request)
 	if err != nil {
 		return nil, err
