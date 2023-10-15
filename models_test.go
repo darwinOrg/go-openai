@@ -1,4 +1,4 @@
-package openai_test
+package openai
 
 import (
 	"os"
