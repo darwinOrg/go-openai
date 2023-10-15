@@ -255,7 +255,7 @@ func (c *Client) handleErrorResp(resp *http.Response) error {
 func buildDgContextWithTraceId(ctx context.Context) *dgctx.DgContext {
 	dgCtx := &dgctx.DgContext{}
 	traceId := ctx.Value(constants.TraceId)
-	if traceId != "" {
+	if traceId != nil && traceId != "" {
 		dgCtx.TraceId = traceId.(string)
 	}
 	return dgCtx
