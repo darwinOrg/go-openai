@@ -16,7 +16,7 @@ func init() {
 	DefaultClient = NewClient(apiKey)
 }
 
-func Completion(ctx *dgctx.DgContext, request CompletionRequest) (CompletionResponse, error) {
+func CreateCompletion(ctx *dgctx.DgContext, request CompletionRequest) (CompletionResponse, error) {
 	start := time.Now().UnixMilli()
 	response, err := DefaultClient.CreateCompletion(context.Background(), request)
 	dglogger.Infof(ctx, "create completion, request: %+v, response: %+v, error: %v, cost: %d ms",
@@ -24,10 +24,10 @@ func Completion(ctx *dgctx.DgContext, request CompletionRequest) (CompletionResp
 	return response, err
 }
 
-func Chat(ctx *dgctx.DgContext, request ChatCompletionRequest) (ChatCompletionResponse, error) {
+func CreateChatCompletion(ctx *dgctx.DgContext, request ChatCompletionRequest) (ChatCompletionResponse, error) {
 	start := time.Now().UnixMilli()
 	response, err := DefaultClient.CreateChatCompletion(context.Background(), request)
-	dglogger.Infof(ctx, "create chat, request: %+v, response: %+v, error: %v, cost: %d ms",
+	dglogger.Infof(ctx, "create chat completion, request: %+v, response: %+v, error: %v, cost: %d ms",
 		request, response, err, time.Now().UnixMilli()-start)
 	return response, err
 }
