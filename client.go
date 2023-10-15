@@ -113,7 +113,7 @@ func (c *Client) sendRequest(ctx context.Context, req *http.Request, v Response)
 		req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	}
 
-	res, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContext(ctx), req)
+	res, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContextWithTraceId(ctx), req)
 	if err != nil {
 		return err
 	}
@@ -132,7 +132,7 @@ func (c *Client) sendRequest(ctx context.Context, req *http.Request, v Response)
 }
 
 func (c *Client) sendRequestRaw(ctx context.Context, req *http.Request) (body io.ReadCloser, err error) {
-	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContext(ctx), req)
+	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContextWithTraceId(ctx), req)
 	if err != nil {
 		return
 	}
@@ -150,7 +150,7 @@ func sendRequestStream[T streamable](client *Client, ctx context.Context, req *h
 	req.Header.Set("Cache-Control", "no-cache")
 	req.Header.Set("Connection", "keep-alive")
 
-	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContext(ctx), req) //nolint:bodyclose // body is closed in stream.Close()
+	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContextWithTraceId(ctx), req) //nolint:bodyclose // body is closed in stream.Close()
 	if err != nil {
 		return new(streamReader[T]), err
 	}
@@ -252,7 +252,7 @@ func (c *Client) handleErrorResp(resp *http.Response) error {
 	return errRes.Error
 }
 
-func buildDgContext(ctx context.Context) *dgctx.DgContext {
+func buildDgContextWithTraceId(ctx context.Context) *dgctx.DgContext {
 	dgCtx := &dgctx.DgContext{}
 	traceId := ctx.Value(constants.TraceId)
 	if traceId != "" {
