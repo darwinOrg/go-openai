@@ -17,15 +17,17 @@ func init() {
 }
 
 func Completion(ctx *dgctx.DgContext, request CompletionRequest) (CompletionResponse, error) {
-	reqCtx := context.WithValue(context.Background(), constants.TraceId, ctx.TraceId)
-	response, err := client.CreateCompletion(reqCtx, request)
+	response, err := client.CreateCompletion(buildContextWithTraceId(ctx), request)
 	dglogger.Infof(ctx, "create completion, request: %+v, response: %+v, error: %v", request, response, err)
 	return response, err
 }
 
 func Chat(ctx *dgctx.DgContext, request ChatCompletionRequest) (ChatCompletionResponse, error) {
-	reqCtx := context.WithValue(context.Background(), constants.TraceId, ctx.TraceId)
-	response, err := client.CreateChatCompletion(reqCtx, request)
+	response, err := client.CreateChatCompletion(buildContextWithTraceId(ctx), request)
 	dglogger.Infof(ctx, "create chat completion, request: %+v, response: %+v, error: %v", request, response, err)
 	return response, err
+}
+
+func buildContextWithTraceId(ctx *dgctx.DgContext) context.Context {
+	return context.WithValue(context.Background(), constants.TraceId, ctx.TraceId)
 }
