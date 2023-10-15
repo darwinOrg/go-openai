@@ -43,6 +43,6 @@ func (c *Client) Edits(ctx context.Context, request EditsRequest) (response Edit
 		return
 	}
 
-	err = c.sendRequest(req, &response)
+	err = c.sendRequest(ctx, req, &response)
 	return
 }

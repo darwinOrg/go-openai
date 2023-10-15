@@ -188,6 +188,6 @@ func (c *Client) CreateCompletion(
 		return
 	}
 
-	err = c.sendRequest(req, &response)
+	err = c.sendRequest(ctx, req, &response)
 	return
 }

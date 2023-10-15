@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/darwinOrg/go-common/constants"
 	dgctx "github.com/darwinOrg/go-common/context"
 	dghttp "github.com/darwinOrg/go-httpclient"
 	"io"
@@ -102,7 +103,7 @@ func (c *Client) newRequest(ctx context.Context, method, url string, setters ...
 	return req, nil
 }
 
-func (c *Client) sendRequest(req *http.Request, v Response) error {
+func (c *Client) sendRequest(ctx context.Context, req *http.Request, v Response) error {
 	req.Header.Set("Accept", "application/json; charset=utf-8")
 
 	// Check whether Content-Type is already set, Upload Files API requires
@@ -112,8 +113,7 @@ func (c *Client) sendRequest(req *http.Request, v Response) error {
 		req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	}
 
-	ctx := &dgctx.DgContext{}
-	res, err := dghttp.GlobalHttpClient.DoRequestRaw(ctx, req)
+	res, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContext(ctx), req)
 	if err != nil {
 		return err
 	}
@@ -131,9 +131,8 @@ func (c *Client) sendRequest(req *http.Request, v Response) error {
 	return decodeResponse(res.Body, v)
 }
 
-func (c *Client) sendRequestRaw(req *http.Request) (body io.ReadCloser, err error) {
-	ctx := &dgctx.DgContext{}
-	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(ctx, req)
+func (c *Client) sendRequestRaw(ctx context.Context, req *http.Request) (body io.ReadCloser, err error) {
+	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContext(ctx), req)
 	if err != nil {
 		return
 	}
@@ -145,14 +144,13 @@ func (c *Client) sendRequestRaw(req *http.Request) (body io.ReadCloser, err erro
 	return resp.Body, nil
 }
 
-func sendRequestStream[T streamable](client *Client, req *http.Request) (*streamReader[T], error) {
+func sendRequestStream[T streamable](client *Client, ctx context.Context, req *http.Request) (*streamReader[T], error) {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "text/event-stream")
 	req.Header.Set("Cache-Control", "no-cache")
 	req.Header.Set("Connection", "keep-alive")
 
-	ctx := &dgctx.DgContext{}
-	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(ctx, req) //nolint:bodyclose // body is closed in stream.Close()
+	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContext(ctx), req) //nolint:bodyclose // body is closed in stream.Close()
 	if err != nil {
 		return new(streamReader[T]), err
 	}
@@ -252,4 +250,13 @@ func (c *Client) handleErrorResp(resp *http.Response) error {
 
 	errRes.Error.HTTPStatusCode = resp.StatusCode
 	return errRes.Error
+}
+
+func buildDgContext(ctx context.Context) *dgctx.DgContext {
+	dgCtx := &dgctx.DgContext{}
+	traceId := ctx.Value(constants.TraceId)
+	if traceId != "" {
+		dgCtx.TraceId = traceId.(string)
+	}
+	return dgCtx
 }

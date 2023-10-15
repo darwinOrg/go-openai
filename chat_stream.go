@@ -53,7 +53,7 @@ func (c *Client) CreateChatCompletionStream(
 		return nil, err
 	}
 
-	resp, err := sendRequestStream[ChatCompletionStreamResponse](c, req)
+	resp, err := sendRequestStream[ChatCompletionStreamResponse](c, ctx, req)
 	if err != nil {
 		return
 	}

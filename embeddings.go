@@ -312,12 +312,12 @@ func (c *Client) CreateEmbeddings(
 	}
 
 	if baseReq.EncodingFormat != EmbeddingEncodingFormatBase64 {
-		err = c.sendRequest(req, &res)
+		err = c.sendRequest(ctx, req, &res)
 		return
 	}
 
 	base64Response := &EmbeddingResponseBase64{}
-	err = c.sendRequest(req, base64Response)
+	err = c.sendRequest(ctx, req, base64Response)
 	if err != nil {
 		return
 	}

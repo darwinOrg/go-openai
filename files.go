@@ -68,7 +68,7 @@ func (c *Client) CreateFile(ctx context.Context, request FileRequest) (file File
 		return
 	}
 
-	err = c.sendRequest(req, &file)
+	err = c.sendRequest(ctx, req, &file)
 	return
 }
 
@@ -79,7 +79,7 @@ func (c *Client) DeleteFile(ctx context.Context, fileID string) (err error) {
 		return
 	}
 
-	err = c.sendRequest(req, nil)
+	err = c.sendRequest(ctx, req, nil)
 	return
 }
 
@@ -91,7 +91,7 @@ func (c *Client) ListFiles(ctx context.Context) (files FilesList, err error) {
 		return
 	}
 
-	err = c.sendRequest(req, &files)
+	err = c.sendRequest(ctx, req, &files)
 	return
 }
 
@@ -104,7 +104,7 @@ func (c *Client) GetFile(ctx context.Context, fileID string) (file File, err err
 		return
 	}
 
-	err = c.sendRequest(req, &file)
+	err = c.sendRequest(ctx, req, &file)
 	return
 }
 
@@ -115,6 +115,6 @@ func (c *Client) GetFileContent(ctx context.Context, fileID string) (content io.
 		return
 	}
 
-	content, err = c.sendRequestRaw(req)
+	content, err = c.sendRequestRaw(ctx, req)
 	return
 }

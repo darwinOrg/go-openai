@@ -59,7 +59,7 @@ func (c *Client) ListModels(ctx context.Context) (models ModelsList, err error) 
 		return
 	}
 
-	err = c.sendRequest(req, &models)
+	err = c.sendRequest(ctx, req, &models)
 	return
 }
 
@@ -72,7 +72,7 @@ func (c *Client) GetModel(ctx context.Context, modelID string) (model Model, err
 		return
 	}
 
-	err = c.sendRequest(req, &model)
+	err = c.sendRequest(ctx, req, &model)
 	return
 }
 
@@ -85,6 +85,6 @@ func (c *Client) DeleteFineTuneModel(ctx context.Context, modelID string) (
 		return
 	}
 
-	err = c.sendRequest(req, &response)
+	err = c.sendRequest(ctx, req, &response)
 	return
 }

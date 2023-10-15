@@ -117,10 +117,10 @@ func (c *Client) callAudioAPI(
 	}
 
 	if request.HasJSONResponse() {
-		err = c.sendRequest(req, &response)
+		err = c.sendRequest(ctx, req, &response)
 	} else {
 		var textResponse audioTextResponse
-		err = c.sendRequest(req, &textResponse)
+		err = c.sendRequest(ctx, req, &textResponse)
 		response = textResponse.ToAudioResponse()
 	}
 	if err != nil {
