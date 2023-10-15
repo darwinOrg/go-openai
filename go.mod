@@ -1,6 +1,6 @@
 module github.com/darwinOrg/go-openai
 
-go 1.18
+go 1.19
 
 require (
 	github.com/darwinOrg/go-common v0.0.2 // indirect
