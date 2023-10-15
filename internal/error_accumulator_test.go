@@ -1,15 +1,16 @@
-package openai
+package openai_test
 
 import (
 	"bytes"
 	"errors"
 	"testing"
 
+	utils "github.com/darwinOrg/go-openai/internal"
 	"github.com/darwinOrg/go-openai/internal/test"
 )
 
 func TestErrorAccumulatorBytes(t *testing.T) {
-	accumulator := &DefaultErrorAccumulator{
+	accumulator := &utils.DefaultErrorAccumulator{
 		Buffer: &bytes.Buffer{},
 	}
 
@@ -30,7 +31,7 @@ func TestErrorAccumulatorBytes(t *testing.T) {
 }
 
 func TestErrorByteWriteErrors(t *testing.T) {
-	accumulator := &DefaultErrorAccumulator{
+	accumulator := &utils.DefaultErrorAccumulator{
 		Buffer: &test.FailingErrorBuffer{},
 	}
 	err := accumulator.Write([]byte("{"))

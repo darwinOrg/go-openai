@@ -51,7 +51,7 @@ func (c *Client) CreateImage(ctx context.Context, request ImageRequest) (respons
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &response)
+	err = c.sendRequest(req, &response)
 	return
 }
 
@@ -115,7 +115,7 @@ func (c *Client) CreateEditImage(ctx context.Context, request ImageEditRequest) 
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &response)
+	err = c.sendRequest(req, &response)
 	return
 }
 
@@ -165,6 +165,6 @@ func (c *Client) CreateVariImage(ctx context.Context, request ImageVariRequest) 
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &response)
+	err = c.sendRequest(req, &response)
 	return
 }

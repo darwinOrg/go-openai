@@ -4,11 +4,14 @@ import (
 	"bufio"
 	"context"
 	"fmt"
-	"github.com/darwinOrg/go-openai"
 	"os"
+
+	"github.com/darwinOrg/go-openai"
 )
 
 func main() {
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+
 	req := openai.ChatCompletionRequest{
 		Model: openai.GPT3Dot5Turbo,
 		Messages: []openai.ChatCompletionMessage{
@@ -27,7 +30,7 @@ func main() {
 			Role:    openai.ChatMessageRoleUser,
 			Content: s.Text(),
 		})
-		resp, err := openai.DefaultClient.CreateChatCompletion(context.Background(), req)
+		resp, err := client.CreateChatCompletion(context.Background(), req)
 		if err != nil {
 			fmt.Printf("ChatCompletion error: %v\n", err)
 			continue

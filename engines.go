@@ -31,7 +31,7 @@ func (c *Client) ListEngines(ctx context.Context) (engines EnginesList, err erro
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &engines)
+	err = c.sendRequest(req, &engines)
 	return
 }
 
@@ -47,6 +47,6 @@ func (c *Client) GetEngine(
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &engine)
+	err = c.sendRequest(req, &engine)
 	return
 }

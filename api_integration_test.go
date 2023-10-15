@@ -9,6 +9,7 @@ import (
 	"os"
 	"testing"
 
+	. "github.com/darwinOrg/go-openai"
 	"github.com/darwinOrg/go-openai/internal/test/checks"
 	"github.com/darwinOrg/go-openai/jsonschema"
 )

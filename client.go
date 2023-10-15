@@ -5,9 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/darwinOrg/go-common/constants"
-	dgctx "github.com/darwinOrg/go-common/context"
-	dghttp "github.com/darwinOrg/go-httpclient"
 	"io"
 	"net/http"
 	"strings"
@@ -15,7 +12,7 @@ import (
 	utils "github.com/darwinOrg/go-openai/internal"
 )
 
-// Client is OpenAI GPT-3 API DefaultClient.
+// Client is OpenAI GPT-3 API client.
 type Client struct {
 	config ClientConfig
 
@@ -41,13 +38,13 @@ func (h *httpHeader) GetRateLimitHeaders() RateLimitHeaders {
 	return newRateLimitHeaders(h.Header())
 }
 
-// NewClient creates new OpenAI API DefaultClient.
+// NewClient creates new OpenAI API client.
 func NewClient(authToken string) *Client {
 	config := DefaultConfig(authToken)
 	return NewClientWithConfig(config)
 }
 
-// NewClientWithConfig creates new OpenAI API DefaultClient for specified config.
+// NewClientWithConfig creates new OpenAI API client for specified config.
 func NewClientWithConfig(config ClientConfig) *Client {
 	return &Client{
 		config:         config,
@@ -58,7 +55,7 @@ func NewClientWithConfig(config ClientConfig) *Client {
 	}
 }
 
-// NewOrgClient creates new OpenAI API DefaultClient for specified Organization ID.
+// NewOrgClient creates new OpenAI API client for specified Organization ID.
 //
 // Deprecated: Please use NewClientWithConfig.
 func NewOrgClient(authToken, org string) *Client {
@@ -103,7 +100,7 @@ func (c *Client) newRequest(ctx context.Context, method, url string, setters ...
 	return req, nil
 }
 
-func (c *Client) sendRequest(ctx context.Context, req *http.Request, v Response) error {
+func (c *Client) sendRequest(req *http.Request, v Response) error {
 	req.Header.Set("Accept", "application/json; charset=utf-8")
 
 	// Check whether Content-Type is already set, Upload Files API requires
@@ -113,7 +110,7 @@ func (c *Client) sendRequest(ctx context.Context, req *http.Request, v Response)
 		req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	}
 
-	res, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContextWithTraceId(ctx), req)
+	res, err := c.config.HTTPClient.Do(req)
 	if err != nil {
 		return err
 	}
@@ -131,8 +128,8 @@ func (c *Client) sendRequest(ctx context.Context, req *http.Request, v Response)
 	return decodeResponse(res.Body, v)
 }
 
-func (c *Client) sendRequestRaw(ctx context.Context, req *http.Request) (body io.ReadCloser, err error) {
-	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContextWithTraceId(ctx), req)
+func (c *Client) sendRequestRaw(req *http.Request) (body io.ReadCloser, err error) {
+	resp, err := c.config.HTTPClient.Do(req)
 	if err != nil {
 		return
 	}
@@ -144,13 +141,13 @@ func (c *Client) sendRequestRaw(ctx context.Context, req *http.Request) (body io
 	return resp.Body, nil
 }
 
-func sendRequestStream[T streamable](client *Client, ctx context.Context, req *http.Request) (*streamReader[T], error) {
+func sendRequestStream[T streamable](client *Client, req *http.Request) (*streamReader[T], error) {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "text/event-stream")
 	req.Header.Set("Cache-Control", "no-cache")
 	req.Header.Set("Connection", "keep-alive")
 
-	resp, err := dghttp.GlobalHttpClient.DoRequestRaw(buildDgContextWithTraceId(ctx), req) //nolint:bodyclose // body is closed in stream.Close()
+	resp, err := client.config.HTTPClient.Do(req) //nolint:bodyclose // body is closed in stream.Close()
 	if err != nil {
 		return new(streamReader[T]), err
 	}
@@ -250,13 +247,4 @@ func (c *Client) handleErrorResp(resp *http.Response) error {
 
 	errRes.Error.HTTPStatusCode = resp.StatusCode
 	return errRes.Error
-}
-
-func buildDgContextWithTraceId(ctx context.Context) *dgctx.DgContext {
-	dgCtx := &dgctx.DgContext{}
-	traceId := ctx.Value(constants.TraceId)
-	if traceId != nil && traceId != "" {
-		dgCtx.TraceId = traceId.(string)
-	}
-	return dgCtx
 }

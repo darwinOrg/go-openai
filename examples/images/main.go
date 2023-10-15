@@ -3,11 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/darwinOrg/go-openai"
 )
 
 func main() {
-	respUrl, err := openai.DefaultClient.CreateImage(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+
+	respUrl, err := client.CreateImage(
 		context.Background(),
 		openai.ImageRequest{
 			Prompt:         "Parrot on a skateboard performs a trick, cartoon style, natural light, high detail",

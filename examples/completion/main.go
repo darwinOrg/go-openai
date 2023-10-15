@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/darwinOrg/go-openai"
 )
 
 func main() {
-	resp, err := openai.DefaultClient.CreateCompletion(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	resp, err := client.CreateCompletion(
 		context.Background(),
 		openai.CompletionRequest{
 			Model:     openai.GPT3Ada,

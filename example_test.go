@@ -6,16 +6,17 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	dghttp "github.com/darwinOrg/go-httpclient"
-	"github.com/darwinOrg/go-openai"
 	"io"
 	"net/http"
 	"net/url"
 	"os"
+
+	"github.com/darwinOrg/go-openai"
 )
 
 func Example() {
-	resp, err := openai.DefaultClient.CreateChatCompletion(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	resp, err := client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
 			Model: openai.GPT3Dot5Turbo,
@@ -37,7 +38,9 @@ func Example() {
 }
 
 func ExampleClient_CreateChatCompletionStream() {
-	stream, err := openai.DefaultClient.CreateChatCompletionStream(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+
+	stream, err := client.CreateChatCompletionStream(
 		context.Background(),
 		openai.ChatCompletionRequest{
 			Model:     openai.GPT3Dot5Turbo,
@@ -76,7 +79,8 @@ func ExampleClient_CreateChatCompletionStream() {
 }
 
 func ExampleClient_CreateCompletion() {
-	resp, err := openai.DefaultClient.CreateCompletion(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	resp, err := client.CreateCompletion(
 		context.Background(),
 		openai.CompletionRequest{
 			Model:     openai.GPT3Ada,
@@ -92,7 +96,8 @@ func ExampleClient_CreateCompletion() {
 }
 
 func ExampleClient_CreateCompletionStream() {
-	stream, err := openai.DefaultClient.CreateCompletionStream(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	stream, err := client.CreateCompletionStream(
 		context.Background(),
 		openai.CompletionRequest{
 			Model:     openai.GPT3Ada,
@@ -125,7 +130,8 @@ func ExampleClient_CreateCompletionStream() {
 }
 
 func ExampleClient_CreateTranscription() {
-	resp, err := openai.DefaultClient.CreateTranscription(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	resp, err := client.CreateTranscription(
 		context.Background(),
 		openai.AudioRequest{
 			Model:    openai.Whisper1,
@@ -140,7 +146,9 @@ func ExampleClient_CreateTranscription() {
 }
 
 func ExampleClient_CreateTranscription_captions() {
-	resp, err := openai.DefaultClient.CreateTranscription(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+
+	resp, err := client.CreateTranscription(
 		context.Background(),
 		openai.AudioRequest{
 			Model:    openai.Whisper1,
@@ -165,7 +173,8 @@ func ExampleClient_CreateTranscription_captions() {
 }
 
 func ExampleClient_CreateTranslation() {
-	resp, err := openai.DefaultClient.CreateTranslation(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	resp, err := client.CreateTranslation(
 		context.Background(),
 		openai.AudioRequest{
 			Model:    openai.Whisper1,
@@ -180,7 +189,9 @@ func ExampleClient_CreateTranslation() {
 }
 
 func ExampleClient_CreateImage() {
-	respURL, err := openai.DefaultClient.CreateImage(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+
+	respURL, err := client.CreateImage(
 		context.Background(),
 		openai.ImageRequest{
 			Prompt:         "Parrot on a skateboard performs a trick, cartoon style, natural light, high detail",
@@ -197,7 +208,9 @@ func ExampleClient_CreateImage() {
 }
 
 func ExampleClient_CreateImage_base64() {
-	resp, err := openai.DefaultClient.CreateImage(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+
+	resp, err := client.CreateImage(
 		context.Background(),
 		openai.ImageRequest{
 			Prompt:         "Portrait of a humanoid parrot in a classic costume, high detail, realistic light, unreal engine",
@@ -234,6 +247,7 @@ func ExampleClient_CreateImage_base64() {
 }
 
 func ExampleClientConfig_clientWithProxy() {
+	config := openai.DefaultConfig(os.Getenv("OPENAI_API_KEY"))
 	port := os.Getenv("OPENAI_PROXY_PORT")
 	proxyURL, err := url.Parse(fmt.Sprintf("http://localhost:%s", port))
 	if err != nil {
@@ -242,12 +256,13 @@ func ExampleClientConfig_clientWithProxy() {
 	transport := &http.Transport{
 		Proxy: http.ProxyURL(proxyURL),
 	}
-	httpClient := &http.Client{
+	config.HTTPClient = &http.Client{
 		Transport: transport,
 	}
-	dghttp.GlobalHttpClient.HttpClient = httpClient
 
-	openai.DefaultClient.CreateChatCompletion( //nolint:errcheck // outside of the scope of this example.
+	client := openai.NewClientWithConfig(config)
+
+	client.CreateChatCompletion( //nolint:errcheck // outside of the scope of this example.
 		context.Background(),
 		openai.ChatCompletionRequest{
 			// etc...
@@ -256,6 +271,8 @@ func ExampleClientConfig_clientWithProxy() {
 }
 
 func Example_chatbot() {
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+
 	req := openai.ChatCompletionRequest{
 		Model: openai.GPT3Dot5Turbo,
 		Messages: []openai.ChatCompletionMessage{
@@ -274,7 +291,7 @@ func Example_chatbot() {
 			Role:    openai.ChatMessageRoleUser,
 			Content: s.Text(),
 		})
-		resp, err := openai.DefaultClient.CreateChatCompletion(context.Background(), req)
+		resp, err := client.CreateChatCompletion(context.Background(), req)
 		if err != nil {
 			fmt.Printf("ChatCompletion error: %v\n", err)
 			continue

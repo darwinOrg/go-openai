@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/darwinOrg/go-openai"
 	"os"
+
+	"github.com/darwinOrg/go-openai"
 )
 
 func main() {
@@ -18,7 +19,8 @@ func main() {
 		return
 	}
 
-	resp, err := openai.DefaultClient.CreateTranscription(
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	resp, err := client.CreateTranscription(
 		context.Background(),
 		openai.AudioRequest{
 			Model:    openai.Whisper1,

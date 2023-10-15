@@ -1,6 +1,7 @@
 package openai
 
 import (
+	"net/http"
 	"regexp"
 )
 
@@ -22,7 +23,7 @@ const (
 
 const AzureAPIKeyHeader = "api-key"
 
-// ClientConfig is a configuration of a DefaultClient.
+// ClientConfig is a configuration of a client.
 type ClientConfig struct {
 	authToken string
 
@@ -31,6 +32,7 @@ type ClientConfig struct {
 	APIType              APIType
 	APIVersion           string                    // required when APIType is APITypeAzure or APITypeAzureAD
 	AzureModelMapperFunc func(model string) string // replace model to azure deployment name func
+	HTTPClient           *http.Client
 
 	EmptyMessagesLimit uint
 }
@@ -41,6 +43,8 @@ func DefaultConfig(authToken string) ClientConfig {
 		BaseURL:   openaiAPIURLv1,
 		APIType:   APITypeOpenAI,
 		OrgID:     "",
+
+		HTTPClient: &http.Client{},
 
 		EmptyMessagesLimit: defaultEmptyMessagesLimit,
 	}
@@ -56,6 +60,8 @@ func DefaultAzureConfig(apiKey, baseURL string) ClientConfig {
 		AzureModelMapperFunc: func(model string) string {
 			return regexp.MustCompile(`[.:]`).ReplaceAllString(model, "")
 		},
+
+		HTTPClient: &http.Client{},
 
 		EmptyMessagesLimit: defaultEmptyMessagesLimit,
 	}

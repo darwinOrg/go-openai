@@ -66,7 +66,7 @@ func (c *Client) CreateFineTuningJob(
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &response)
+	err = c.sendRequest(req, &response)
 	return
 }
 
@@ -77,7 +77,7 @@ func (c *Client) CancelFineTuningJob(ctx context.Context, fineTuningJobID string
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &response)
+	err = c.sendRequest(req, &response)
 	return
 }
 
@@ -92,7 +92,7 @@ func (c *Client) RetrieveFineTuningJob(
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &response)
+	err = c.sendRequest(req, &response)
 	return
 }
 
@@ -152,6 +152,6 @@ func (c *Client) ListFineTuningJobEvents(
 		return
 	}
 
-	err = c.sendRequest(ctx, req, &response)
+	err = c.sendRequest(req, &response)
 	return
 }
