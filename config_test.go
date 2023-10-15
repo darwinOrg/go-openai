@@ -1,8 +1,9 @@
 package openai_test
 
 import (
-	. "github.com/darwinOrg/go-openai"
 	"testing"
+
+	. "github.com/darwinOrg/go-openai"
 )
 
 func TestGetAzureDeploymentByModel(t *testing.T) {
