@@ -1,6 +1,7 @@
-package openai
+package openai_test
 
 import (
+	. "github.com/darwinOrg/go-openai"
 	"testing"
 )
 

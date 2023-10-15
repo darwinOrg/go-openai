@@ -1,9 +1,10 @@
-package openai
+package openai_test
 
 import (
 	"os"
 	"time"
 
+	. "github.com/darwinOrg/go-openai"
 	"github.com/darwinOrg/go-openai/internal/test/checks"
 
 	"context"

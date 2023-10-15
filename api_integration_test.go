@@ -1,6 +1,6 @@
 //go:build integration
 
-package openai
+package openai_test
 
 import (
 	"context"

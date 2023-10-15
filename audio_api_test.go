@@ -1,4 +1,4 @@
-package openai
+package openai_test
 
 import (
 	"bytes"
@@ -12,6 +12,7 @@ import (
 	"strings"
 	"testing"
 
+	. "github.com/darwinOrg/go-openai"
 	"github.com/darwinOrg/go-openai/internal/test"
 	"github.com/darwinOrg/go-openai/internal/test/checks"
 )

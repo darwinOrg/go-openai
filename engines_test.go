@@ -1,4 +1,4 @@
-package openai
+package openai_test
 
 import (
 	"context"
@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"testing"
 
+	. "github.com/darwinOrg/go-openai"
 	"github.com/darwinOrg/go-openai/internal/test/checks"
 )
 

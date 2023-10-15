@@ -1,4 +1,4 @@
-package openai
+package openai_test
 
 import (
 	"bytes"
@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"testing"
 
+	. "github.com/darwinOrg/go-openai"
 	"github.com/darwinOrg/go-openai/internal/test/checks"
 )
 
