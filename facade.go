@@ -24,7 +24,7 @@ func Completion(ctx *dgctx.DgContext, request CompletionRequest) (CompletionResp
 
 func Chat(ctx *dgctx.DgContext, request ChatCompletionRequest) (ChatCompletionResponse, error) {
 	response, err := client.CreateChatCompletion(buildContextWithTraceId(ctx), request)
-	dglogger.Infof(ctx, "create chat completion, request: %+v, response: %+v, error: %v", request, response, err)
+	dglogger.Infof(ctx, "create chat, request: %+v, response: %+v, error: %v", request, response, err)
 	return response, err
 }
 
