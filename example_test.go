@@ -234,7 +234,6 @@ func ExampleClient_CreateImage_base64() {
 }
 
 func ExampleClientConfig_clientWithProxy() {
-	config := openai.DefaultConfig(os.Getenv("OPENAI_API_KEY"))
 	port := os.Getenv("OPENAI_PROXY_PORT")
 	proxyURL, err := url.Parse(fmt.Sprintf("http://localhost:%s", port))
 	if err != nil {
@@ -248,9 +247,7 @@ func ExampleClientConfig_clientWithProxy() {
 	}
 	dghttp.GlobalHttpClient.HttpClient = httpClient
 
-	client := openai.NewClientWithConfig(config)
-
-	client.CreateChatCompletion( //nolint:errcheck // outside of the scope of this example.
+	openai.DefaultClient.CreateChatCompletion( //nolint:errcheck // outside of the scope of this example.
 		context.Background(),
 		openai.ChatCompletionRequest{
 			// etc...
