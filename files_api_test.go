@@ -21,7 +21,7 @@ func TestFileUpload(t *testing.T) {
 	server.RegisterHandler("/v1/files", handleCreateFile)
 	req := FileRequest{
 		FileName: "test.go",
-		FilePath: "client.go",
+		FilePath: "DefaultClient.go",
 		Purpose:  "fine-tune",
 	}
 	_, err := client.CreateFile(context.Background(), req)

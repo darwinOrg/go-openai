@@ -23,7 +23,7 @@ func TestFileUploadWithFailingFormBuilder(t *testing.T) {
 	ctx := context.Background()
 	req := FileRequest{
 		FileName: "test.go",
-		FilePath: "client.go",
+		FilePath: "DefaultClient.go",
 		Purpose:  "fine-tune",
 	}
 

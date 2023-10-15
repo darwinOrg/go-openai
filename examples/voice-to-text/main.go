@@ -18,8 +18,7 @@ func main() {
 		return
 	}
 
-	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
-	resp, err := client.CreateTranscription(
+	resp, err := openai.DefaultClient.CreateTranscription(
 		context.Background(),
 		openai.AudioRequest{
 			Model:    openai.Whisper1,

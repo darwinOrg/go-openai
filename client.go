@@ -15,7 +15,7 @@ import (
 	utils "github.com/darwinOrg/go-openai/internal"
 )
 
-// Client is OpenAI GPT-3 API client.
+// Client is OpenAI GPT-3 API DefaultClient.
 type Client struct {
 	config ClientConfig
 
@@ -41,13 +41,13 @@ func (h *httpHeader) GetRateLimitHeaders() RateLimitHeaders {
 	return newRateLimitHeaders(h.Header())
 }
 
-// NewClient creates new OpenAI API client.
+// NewClient creates new OpenAI API DefaultClient.
 func NewClient(authToken string) *Client {
 	config := DefaultConfig(authToken)
 	return NewClientWithConfig(config)
 }
 
-// NewClientWithConfig creates new OpenAI API client for specified config.
+// NewClientWithConfig creates new OpenAI API DefaultClient for specified config.
 func NewClientWithConfig(config ClientConfig) *Client {
 	return &Client{
 		config:         config,
@@ -58,7 +58,7 @@ func NewClientWithConfig(config ClientConfig) *Client {
 	}
 }
 
-// NewOrgClient creates new OpenAI API client for specified Organization ID.
+// NewOrgClient creates new OpenAI API DefaultClient for specified Organization ID.
 //
 // Deprecated: Please use NewClientWithConfig.
 func NewOrgClient(authToken, org string) *Client {

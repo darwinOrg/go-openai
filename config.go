@@ -22,7 +22,7 @@ const (
 
 const AzureAPIKeyHeader = "api-key"
 
-// ClientConfig is a configuration of a client.
+// ClientConfig is a configuration of a DefaultClient.
 type ClientConfig struct {
 	authToken string
 

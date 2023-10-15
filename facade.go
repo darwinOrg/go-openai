@@ -8,22 +8,22 @@ import (
 	"os"
 )
 
-var client *Client
+var DefaultClient *Client
 
 func init() {
 	apiKey := os.Getenv("OPENAI_API_KEY")
 
-	client = NewClient(apiKey)
+	DefaultClient = NewClient(apiKey)
 }
 
 func Completion(ctx *dgctx.DgContext, request CompletionRequest) (CompletionResponse, error) {
-	response, err := client.CreateCompletion(buildContextWithTraceId(ctx), request)
+	response, err := DefaultClient.CreateCompletion(buildContextWithTraceId(ctx), request)
 	dglogger.Infof(ctx, "create completion, request: %+v, response: %+v, error: %v", request, response, err)
 	return response, err
 }
 
 func Chat(ctx *dgctx.DgContext, request ChatCompletionRequest) (ChatCompletionResponse, error) {
-	response, err := client.CreateChatCompletion(buildContextWithTraceId(ctx), request)
+	response, err := DefaultClient.CreateChatCompletion(buildContextWithTraceId(ctx), request)
 	dglogger.Infof(ctx, "create chat, request: %+v, response: %+v, error: %v", request, response, err)
 	return response, err
 }
