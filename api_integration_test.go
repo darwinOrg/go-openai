@@ -1,5 +1,3 @@
-//go:build integration
-
 package openai_test
 
 import (
@@ -15,9 +13,9 @@ import (
 )
 
 func TestAPI(t *testing.T) {
-	apiToken := os.Getenv("OPENAI_TOKEN")
+	apiToken := os.Getenv("OPENAI_API_KEY")
 	if apiToken == "" {
-		t.Skip("Skipping testing against production OpenAI API. Set OPENAI_TOKEN environment variable to enable it.")
+		t.Skip("Skipping testing against production OpenAI API. Set OPENAI_API_KEY environment variable to enable it.")
 	}
 
 	var err error
@@ -135,9 +133,9 @@ func TestAPI(t *testing.T) {
 }
 
 func TestAPIError(t *testing.T) {
-	apiToken := os.Getenv("OPENAI_TOKEN")
+	apiToken := os.Getenv("OPENAI_API_KEY")
 	if apiToken == "" {
-		t.Skip("Skipping testing against production OpenAI API. Set OPENAI_TOKEN environment variable to enable it.")
+		t.Skip("Skipping testing against production OpenAI API. Set OPENAI_API_KEY environment variable to enable it.")
 	}
 
 	var err error
