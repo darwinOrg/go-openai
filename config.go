@@ -44,7 +44,7 @@ func DefaultConfig(authToken string) ClientConfig {
 		APIType:   APITypeOpenAI,
 		OrgID:     "",
 
-		HTTPClient: &http.Client{},
+		HTTPClient: http.DefaultClient,
 
 		EmptyMessagesLimit: defaultEmptyMessagesLimit,
 	}
@@ -61,7 +61,7 @@ func DefaultAzureConfig(apiKey, baseURL string) ClientConfig {
 			return regexp.MustCompile(`[.:]`).ReplaceAllString(model, "")
 		},
 
-		HTTPClient: &http.Client{},
+		HTTPClient: http.DefaultClient,
 
 		EmptyMessagesLimit: defaultEmptyMessagesLimit,
 	}
