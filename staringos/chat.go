@@ -30,5 +30,4 @@ type MessageResponse struct {
 	Model        string `json:"model,omitempty"`
 	AppId        int    `json:"appId,omitempty"`
 	At           int64  `json:"at,omitempty"`
-	T            int64  `json:"t,omitempty"`
 }
