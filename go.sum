@@ -4,6 +4,7 @@ github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj
 github.com/cespare/xxhash/v2 v2.2.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/darwinOrg/go-common v0.0.13 h1:Klr8FbSGPl3LvEAwlzcrfiYZzgicULgMRpbntOrYLik=
 github.com/darwinOrg/go-common v0.0.13/go.mod h1:pItL/4ZV0bU64N2qD9ACpvDlYjeomAbheIzPXKqbb88=
+github.com/darwinOrg/go-common v0.0.14/go.mod h1:pItL/4ZV0bU64N2qD9ACpvDlYjeomAbheIzPXKqbb88=
 github.com/darwinOrg/go-httpclient v0.0.14 h1:miv8IG5WORmKRau6EcoHvWdfbbERvZKYLNXnaPlouJs=
 github.com/darwinOrg/go-httpclient v0.0.14/go.mod h1:C058C+A1AWyjDy4IW6jo2zmNjIAbqOR1D/Kw2Q9bobE=
 github.com/darwinOrg/go-logger v0.0.1 h1:qp/cGIF2aMD3HbvqvZH2cKJjkhAGPwaUkF/Qud9pGOU=

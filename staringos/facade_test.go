@@ -13,7 +13,7 @@ func TestCreateChatCompletion(t *testing.T) {
 	ctx := &dgctx.DgContext{TraceId: "123"}
 	response, err := staringos.CreateChatCompletion(
 		ctx,
-		&staringos.ChatCompletionRequest{
+		&staringos.ChatByCorpusRequest{
 			Model: "gpt-3.5",
 			Prompt: []openai.ChatCompletionMessage{
 				{

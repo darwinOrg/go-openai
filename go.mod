@@ -3,7 +3,7 @@ module github.com/darwinOrg/go-openai
 go 1.19
 
 require (
-	github.com/darwinOrg/go-common v0.0.13
+	github.com/darwinOrg/go-common v0.0.14
 	github.com/darwinOrg/go-httpclient v0.0.14
 	github.com/darwinOrg/go-logger v0.0.1
 )
