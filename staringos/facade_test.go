@@ -14,7 +14,7 @@ func TestCreateChatCompletion(t *testing.T) {
 	response, err := staringos.CreateChatCompletion(
 		ctx,
 		&staringos.ChatByCorpusRequest{
-			Model: "gpt-3.5",
+			Model: "hoy-3-16k",
 			Prompt: []openai.ChatCompletionMessage{
 				{
 					Role:    openai.ChatMessageRoleSystem,
@@ -46,5 +46,5 @@ func TestCreateChatCompletion(t *testing.T) {
 		return
 	}
 
-	dglogger.Info(ctx, response)
+	dglogger.Infof(ctx, "%+v", response)
 }
