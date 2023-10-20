@@ -38,13 +38,6 @@ func (h *httpHeader) GetRateLimitHeaders() RateLimitHeaders {
 	return newRateLimitHeaders(h.Header())
 }
 
-// NewProxyClient creates new OpenAI API proxy client.
-func NewProxyClient(proxyBaseUrl string) *Client {
-	config := DefaultConfig("none")
-	config.BaseURL = proxyBaseUrl
-	return NewClientWithConfig(config)
-}
-
 // NewClient creates new OpenAI API client.
 func NewClient(authToken string) *Client {
 	config := DefaultConfig(authToken)
